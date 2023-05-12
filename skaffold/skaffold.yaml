@@ -1,0 +1,19 @@
+apiVersion: skaffold/v2beta26
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ../k8s/charts/auth/templates/*
+      - ../k8s/charts/client/templates/*
+build:
+  local:
+    push: false
+  artifacts:
+    - image: abhishekrs77/ee-auth
+      context: ../microservices/auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
